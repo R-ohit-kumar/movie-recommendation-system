@@ -1,10 +1,19 @@
 import streamlit as st
-import gdown
 import pickle
-import os
 import pandas as pd
 import requests
 
+
+# def fetch_poster(movie_id):
+#     response = requests.get(f"https://api.themoviedb.org/3/movie/{movie_id}/images?api_key=6b4483f5219761ef0bf431e296881af5")
+#     data = response.json()
+#     # st.text(data)
+#     try:
+#         poster_url = "http://image.tmdb.org/t/p/w500/" + data["posters"][1]["file_path"]
+#     except:
+#         poster_url = "http://image.tmdb.org/t/p/w500/" + data["posters"][0]["file_path"]
+#
+#     return poster_url
 
 
 def fetch_poster(movie_id):
@@ -48,18 +57,6 @@ def recommend(movie):
 
     return recommended_movies, recommended_movies_posters
 
-
-
-
-# Check if the file exists; if not, download it
-if not os.path.exists("similarity.pkl"):
-    url = "https://drive.google.com/file/d/1EPNkgCeUrB2AIWJXFKeUU0heZ39OdKdg/view?usp=sharing"
-    gdown.download(url, "similarity.pkl", quiet=False)
-
-# Load the pickle file
-with open("similarity.pkl", "rb") as f:
-    similarity = pickle.load(f)
-
 movies = pickle.load(open('movies.pkl','rb'))
 similarity = pickle.load(open('similarity.pkl','rb'))
 movies_lists = movies['title'].values
@@ -92,6 +89,5 @@ if st.button("Recommend"):
     with col5:
         st.subheader(names[4])
         st.image(posters[4])
-
 
 
